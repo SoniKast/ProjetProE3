@@ -1,8 +1,9 @@
 var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
+var express = require('express');
 var logger = require('morgan');
+var path = require('path');
+const port = 3000
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -26,6 +27,10 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
 
 // error handler
 app.use(function(err, req, res, next) {
