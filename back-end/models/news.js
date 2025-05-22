@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: DataTypes.NOW,
             allowNull: false,    
         },  
-    });  
+    }, {
+        timestamps: false,
+    });
     return News;
 };

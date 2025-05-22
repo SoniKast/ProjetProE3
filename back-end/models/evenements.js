@@ -28,19 +28,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        date_creation: {      
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false,    
-        },  
-        date_modification: {      
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false,    
-        },    
-    });  
+    }, {
+        timestamps: true,
+        createdAt: 'date_creation',
+        updatedAt: 'date_modification',
+    }); 
     Evenements.associate = function (models) {
-        Evenements.hasMany(models.inscriptions);
+        Evenements.hasMany(models.inscriptions, {
+            foreignKey: 'id_evenement', foreignKeyConstraint: true 
+        });
     };
     return Evenements;
 };

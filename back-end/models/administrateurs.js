@@ -23,9 +23,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,    
             validate: {
-              is: /^[0-9a-f]{64}$/i,
+              is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/,
             },
         }, 
-    });  
+    }, {
+        timestamps: false,
+    });
     return Administrateurs;
 };

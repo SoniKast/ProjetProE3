@@ -2,12 +2,16 @@ var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var express = require('express');
 var logger = require('morgan');
+var db = require("./models");
 var path = require('path');
 const port = 3000
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var evenementsRouter = require('./routes/evenements');
+var inscriptionsRouter = require('./routes/inscriptions');
+var newsRouter = require('./routes/news');
+var administrateursRouter = require('./routes/administrateurs');
 
 var app = express();
 
@@ -22,16 +26,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api', usersRouter, evenementsRouter);
+app.use('/api', usersRouter, evenementsRouter, 
+  inscriptionsRouter, newsRouter, administrateursRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+db.sequelize.sync({ force: false }).then(function () {
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  });
+});
 
 // error handler
 app.use(function(err, req, res, next) {
