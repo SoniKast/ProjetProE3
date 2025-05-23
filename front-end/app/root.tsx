@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'node_modules/bootstrap-icons/font/bootstrap-icons.scss';
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
