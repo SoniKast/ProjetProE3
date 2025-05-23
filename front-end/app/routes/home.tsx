@@ -4,7 +4,7 @@ import { Accueil } from "../public/accueil";
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Accueil - OpenEvent" },
-    { name: "description", content: "Welcome to React Router!" },
+    { name: "description", content: "Page d'accueil du site OpenEvent" },
   ];
 }
 

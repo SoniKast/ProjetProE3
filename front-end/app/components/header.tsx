@@ -10,13 +10,13 @@ const Header = () => {
 
         <div className="nav nav-pills">
           <form className="d-flex">
-                <div className="input-group">
-                    <input className="form-control form-control-lg" type="search" placeholder="Recherche" aria-label="Recherche"></input>
-                    <button className="btn btn-primary px-4" type="submit">
-                        <i className="bi bi-search"></i>
-                    </button>
-                </div>
-            </form>
+              <div className="input-group">
+                <input className="form-control form-control-mg" type="search" placeholder="Recherche" aria-label="Recherche"></input>
+                <button className="btn btn-primary bg-gradient px-4" type="submit">
+                    <i className="bi bi-search"></i>
+                </button>
+              </div>
+          </form>
         </div>
       </header>
     </div>
