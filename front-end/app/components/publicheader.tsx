@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-const Header = () => {
+const PublicHeader = () => {
   return (
     <div className="navbar navbar-expand-lg p-3 mb-2 border-bottom">
       <header className="container">
@@ -23,4 +23,4 @@ const Header = () => {
   );
 }
 
-export default Header;
+export default PublicHeader;

@@ -8,7 +8,7 @@ var path = require('path');
 const port = 3000
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var authRouter = require('./routes/auth');
 var evenementsRouter = require('./routes/evenements');
 var inscriptionsRouter = require('./routes/inscriptions');
 var newsRouter = require('./routes/news');
@@ -28,8 +28,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api', usersRouter, evenementsRouter, 
-  inscriptionsRouter, newsRouter, administrateursRouter);
+app.use('/api', evenementsRouter, 
+  inscriptionsRouter, newsRouter, administrateursRouter, authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

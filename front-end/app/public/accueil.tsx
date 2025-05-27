@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
-import "./base.css";
+import "./styles/base.css";
 import { useNavigate } from 'react-router';
 
 interface Evenement {

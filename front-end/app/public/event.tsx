@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { useLoaderData } from "react-router";
-import "./base.css";
+import "./styles/base.css";
 
 export function meta({ data }: { data: { titre: string } }) {
   return [{ title: `${data.titre} - OpenEvent` }];

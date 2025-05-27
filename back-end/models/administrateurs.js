@@ -22,9 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         mot_de_passe: {      
             type: DataTypes.STRING,
             allowNull: false,    
-            validate: {
-              is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/,
-            },
         }, 
     }, {
         timestamps: false,
