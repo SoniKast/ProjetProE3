@@ -52,7 +52,7 @@ export function Accueil() {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img src="/placeholder1.png" className="d-block w-100 carousel-image-shadow" width="1980" height="400" />
+                        <img src="event/header/placeholder1.png" className="d-block w-100 carousel-image-shadow" width="1980" height="400" />
                         <div className="carousel-caption d-none d-md-block">
                             <h5>Premier évènement</h5>
                             <p>Texte test.</p>
@@ -60,7 +60,7 @@ export function Accueil() {
                         </div>
                     </div>
                     <div className="carousel-item">
-                        <img src="/placeholder2.png" className="d-block w-100 carousel-image-shadow" width="1980" height="400" />
+                        <img src="event/header/placeholder2.png" className="d-block w-100 carousel-image-shadow" width="1980" height="400" />
                         <div className="carousel-caption d-none d-md-block">
                             <h5>Second évènement</h5>
                             <p>Texte test.</p>
@@ -68,7 +68,7 @@ export function Accueil() {
                         </div>
                     </div>
                     <div className="carousel-item">
-                        <img src="/placeholder3.png" className="d-block w-100 carousel-image-shadow" width="1980" height="400" />
+                        <img src="event/header/placeholder3.png" className="d-block w-100 carousel-image-shadow" width="1980" height="400" />
                         <div className="carousel-caption d-none d-md-block">
                             <h5>Troisième évènement</h5>
                             <p>Texte test.</p>
@@ -90,7 +90,7 @@ export function Accueil() {
                     {evenementsAleatoire.map((evenements) => (
                     <div className="col-4" key={evenements.id}>
                         <div className="card">
-                            <img src={`/placeholder${evenements.id}.png`} className="card-img-top" width="350px" height="200px" />
+                            <img src={`event/header/placeholder${evenements.id}.png`} className="card-img-top" width="350px" height="200px" />
                             <div className="card-body">
                                 <h5 className="card-title">{evenements.titre}</h5>
                                 <p className="card-text">{evenements.description}</p>

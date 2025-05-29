@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 import Sidebar from "~/components/sidebar";
 import "./styles/login.css";
 import { Datepicker } from "~/components/datepicker";
@@ -11,11 +12,19 @@ export function CreateEvent() {
     const [dateFin, setDateFin] = useState('');
     const [categorie, setCategorie] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleEvent = (async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         setError("");
     })
+
+    useEffect(() => {
+        const token = sessionStorage.getItem("token");
+        if (token) {
+            navigate("/admin");
+        }
+    }, []);
 
     return (
         <>

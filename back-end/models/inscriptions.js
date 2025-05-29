@@ -18,6 +18,14 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: DataTypes.NOW,
             allowNull: false,    
         },  
+        token_inscription: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        confirmation: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        }
     }, {
         timestamps: false,
     });

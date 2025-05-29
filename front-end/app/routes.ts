@@ -4,6 +4,8 @@ export default [
     layout("routes/mainlayout.tsx", [
         index("routes/home.tsx"),
         route("event/:pid", "routes/event.tsx"),
+        route("inscription/:pid", "routes/inscription.tsx"),
+        route("confirmation/:token", "routes/confirmation.tsx")
     ]),
 
     ...prefix("admin", [ 

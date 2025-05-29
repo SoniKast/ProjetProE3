@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
 
         // Renvoyer un token et l'info utilisateur
         res.json({
-            message: "Login successful",
+            message: "Connexion réussie",
             token,
             user: {
                 id: user.id,

@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { Event } from "../public/event";
+import { Inscription } from "../public/inscription";
 
 interface Evenement {
   id: number;
@@ -17,11 +17,11 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Évènement - OpenEvent" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Inscription à un évènement - OpenEvent" },
+    { name: "description", content: "Inscription à un évènement" },
   ];
 }
 
-export default function HomeRoute() {
-  return <Event />;
+export default function InscriptionRoute() {
+  return <Inscription />;
 }

@@ -1,5 +1,4 @@
-import { Link } from "react-router";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import "./styles/base.css";
 
 export function meta({ data }: { data: { titre: string } }) {
@@ -17,7 +16,7 @@ export function Event() {
     return (
         <>
             <div>
-                <img src={`/placeholder${event.id}.png`} className="image-width" width="1920" height="300" />
+                <img src={`header/placeholder${event.id}.png`} className="image-width" width="1920" height="300" />
                 <div className="container py-2">
                     <div className="row">
                         <div className="col-8 p-4">
@@ -25,7 +24,7 @@ export function Event() {
                             <p>{event.description_detail}</p>
                         </div>
                         <div className="col-4 border-start p-4">
-                            <button className="btn btn-primary bg-gradient">S'inscrire</button>
+                            <Link className="btn btn-primary bg-gradient" to={`/inscription/${event.id}`}>S'inscrire</Link>
                         </div>
                     </div>
                 </div>

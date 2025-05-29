@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var express = require('express');
@@ -50,7 +51,11 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {
+    title: 'Erreur',
+    message: err.message,
+    error: err
+  });
 });
 
 module.exports = app;

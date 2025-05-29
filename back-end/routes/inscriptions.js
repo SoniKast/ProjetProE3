@@ -1,15 +1,63 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
 // POST : créer une nouvelle inscription
 router.post('/inscriptions', async (req, res) => {
   try {
-    const inscriptions = await models.inscriptions.create(req.body);
-    res.json(inscriptions);
+    const token = crypto.randomBytes(20).toString('hex');
+    const inscriptions = await models.inscriptions.create({
+      ...req.body, 
+      token_inscription: token,
+      confirmation: false
+    });
+
+    // envoyer l'email..
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      }
+    });
+
+    const confirmationUrl = `http://localhost:5173/confirmation/${token}`;
+    await transporter.sendMail({
+      from: `"OpenEvent" <${process.env.EMAIL_USER}>`,
+      to: inscriptions.email,
+      subject: "Confirmez votre inscription",
+      html: `<p>Merci de vous être inscrit. Cliquez sur ce lien pour confirmer :</p>
+             <a href="${confirmationUrl}">${confirmationUrl}</a>`
+    });
+
+    res.json({ message: "Inscription créée. Veuillez vérifier votre e-mail." });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Erreur dans la création de l'inscription." });
+  }
+});
+
+// Token d'inscription
+router.get('/confirmation/:token', async (req, res) => {
+  try {
+    const inscription = await models.inscriptions.findOne({
+      where: { token_inscription: req.params.token }
+    });
+
+    if (!inscription) {
+      return res.status(400).send("Token invalide.");
+    }
+
+    inscription.confirmation = true;
+    inscription.token_inscription = '';
+    await inscription.save();
+
+    res.send("Inscription confirmée avec succès !");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erreur lors de la confirmation.");
   }
 });
 
