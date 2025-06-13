@@ -149,7 +149,7 @@ export function Accueil() {
                         <p className="mb-2">{raccourcir(actu.description, 150)}</p>
                         <button
                             className="btn btn-link p-0"
-                            onClick={() => navigate(`/news/${actu.id}`)}>
+                            onClick={() => navigate(`/actualites/${actu.id}`)}>
                             Lire la suite &raquo;
                         </button>
                         </div>
