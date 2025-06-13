@@ -13,6 +13,13 @@ interface Evenement {
   categorie?: string;
 }
 
+interface Actualite {
+  id: number;
+  titre: string;
+  description: string;
+  date_creation: string;
+}
+
 function getEvenementsAleatoire(evenements: Evenement[], count = 3) {
   const shuffled = [...evenements].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
@@ -21,6 +28,8 @@ function getEvenementsAleatoire(evenements: Evenement[], count = 3) {
 export function Accueil() {
     const [evenementsAleatoire, setEvenementsAleatoire] = useState<Evenement[]>([]);
     const [evenements, setEvenements] = useState<Evenement[]>([]);
+    const [actualites, setActualites] = useState<Actualite[]>([]);
+    const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,8 +48,34 @@ export function Accueil() {
             }
         }
 
+        async function getActualites() {
+            try {
+                const response = await fetch("http://localhost:3000/api/news");
+                if (!response.ok) throw new Error("Erreur lors du chargement des actualités");
+                const data: Actualite[] = await response.json();
+                setActualites(data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des actualités:", error);
+            }
+        }
+
         getEvenements();
+        getActualites();
     }, []);
+
+    // fonction pour raccourcir le texte de la description
+    function raccourcir(text: string, maxLength = 100) {
+        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    }
+
+    // pagination : 
+    const itemsPerPage = 4;
+    const paginatedActualites = actualites.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage
+    );
+    const totalPages = Math.ceil(actualites.length / itemsPerPage);
+
 
     return (
         <>
@@ -99,6 +134,50 @@ export function Accueil() {
                         </div>
                     </div>
                     ))}
+                </div>
+                <h2 className="mb-4 py-3">Actualités</h2>
+                <div className="row gx-5">
+                    {paginatedActualites.map((actu) => (
+                    <div className="col-12 mb-3" key={actu.id}>
+                        <div className="border p-3 rounded shadow-sm">
+                        <h5 className="mb-1">
+                            <span style={{ fontSize: '1.2rem' }}>{actu.titre}</span>{" "}
+                            <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                            ({new Date(actu.date_creation).toLocaleDateString()})
+                            </small>
+                        </h5>
+                        <p className="mb-2">{raccourcir(actu.description, 150)}</p>
+                        <button
+                            className="btn btn-link p-0"
+                            onClick={() => navigate(`/news/${actu.id}`)}>
+                            Lire la suite &raquo;
+                        </button>
+                        </div>
+                    </div>
+                    ))}
+                    {totalPages > 1 && (
+                        <nav className="mt-4">
+                            <ul className="pagination justify-content-center">
+                            <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+                                <button className="page-link" onClick={() => setPage(page - 1)}>
+                                Précédent
+                                </button>
+                            </li>
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                                <li key={p} className={`page-item ${page === p ? "active" : ""}`}>
+                                <button className="page-link" onClick={() => setPage(p)}>
+                                    {p}
+                                </button>
+                                </li>
+                            ))}
+                            <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
+                                <button className="page-link" onClick={() => setPage(page + 1)}>
+                                Suivant
+                                </button>
+                            </li>
+                            </ul>
+                        </nav>
+                    )}
                 </div>
             </div>
         </>
