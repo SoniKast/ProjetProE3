@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router';
+import { useState } from "react";
 import Sidebar from "~/components/sidebar";
 import "./styles/login.css";
-import { Datepicker } from "~/components/datepicker";
 
 export function CreateEvent() {
     const [titre, setTitre] = useState('');
@@ -10,21 +8,40 @@ export function CreateEvent() {
     const [descriptionDetail, setDescriptionDetail] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
-    const [categorie, setCategorie] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [categorie, setCategorie] = useState('');
 
-    const handleEvent = (async (e: { preventDefault: () => void; }) => {
+    const handleEvent = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         setError("");
-    })
 
-    useEffect(() => {
-        const token = sessionStorage.getItem("token");
-        if (token) {
-            navigate("/admin");
+    if(dateDebut > dateFin)
+    {
+        setError("La date de début est après la date de fin.");
+    }
+    else
+    {
+        try {
+                const response = await fetch("http://localhost:3000/api/evenements", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ titre, description, description_detail: descriptionDetail, date_debut: dateDebut, date_fin: dateFin, categorie })
+                });
+
+                const data = await response.json();
+                console.log("Réponse du serveur:", data);
+
+                if (!response.ok) {
+                    setError(data.message || "Problème dans la création de l'évènement.");
+                    return;
+                }
+
+            } catch (error) {
+                console.error("Erreur lors de la création de l'évènement:", error);
+                setError("Erreur : " + error);
+            }
         }
-    }, []);
+    }
 
     return (
         <>
@@ -53,6 +70,20 @@ export function CreateEvent() {
                             </div>
                             <div className="input-group mb-3">
                                 <div className="form-floating">
+                                    <input type="date" className="form-control" id="dateDebutInput" value={dateDebut} onChange={(e) => setDateDebut(e.target.value)} required />
+                                    <label htmlFor="dateDebutInput">Date de début</label>
+                                </div>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="form-floating">
+                                    <input type="date" className="form-control" id="dateFinInput" value={dateFin} onChange={(e) => setDateFin(e.target.value)} required />
+                                    <label htmlFor="dateFinInput">Date de fin</label>
+                                </div>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="form-floating">
+                                    <input type="text" className="form-control" id="categorieInput" value={categorie} onChange={(e) => setCategorie(e.target.value)} required />
+                                    <label htmlFor="categorieInput">Catégorie</label>
                                 </div>
                             </div>
                             <br />
