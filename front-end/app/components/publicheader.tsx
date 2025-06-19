@@ -9,18 +9,16 @@ const PublicHeader = () => {
         </Link>
 
         <div className="nav nav-pills">
-          <form className="d-flex">
-              <div className="input-group">
-                <input className="form-control form-control-mg" type="search" placeholder="Recherche" aria-label="Recherche"></input>
-                <button className="btn btn-primary bg-gradient px-4" type="submit">
-                    <i className="bi bi-search"></i>
-                </button>
-              </div>
-          </form>
+            <Link to="/recherche" className="btn btn-primary d-flex bg-gradient px-4">Recherche</Link>
         </div>
       </header>
     </div>
   );
 }
 
+// <button className="btn btn-primary bg-gradient px-4" type="submit">
+//    <input className="form-control form-control-mg" type="search" placeholder="Recherche" aria-label="Recherche"></input>
+//          <i className="bi bi-search"></i>
+// </button>
+                
 export default PublicHeader;

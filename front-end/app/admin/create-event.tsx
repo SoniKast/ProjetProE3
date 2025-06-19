@@ -82,7 +82,7 @@ export function CreateEvent() {
                             </div>
                             <div className="input-group mb-3">
                                 <div className="form-floating">
-                                    <input type="text" className="form-control" id="categorieInput" value={categorie} onChange={(e) => setCategorie(e.target.value)} required />
+                                    <input type="text" className="form-control" id="categorieInput" value={categorie} placeholder="Catégorie" onChange={(e) => setCategorie(e.target.value)} required />
                                     <label htmlFor="categorieInput">Catégorie</label>
                                 </div>
                             </div>
