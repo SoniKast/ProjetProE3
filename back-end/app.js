@@ -2,10 +2,14 @@ require('dotenv').config();
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var router = express.Router();
+var multer = require("multer");
 var logger = require('morgan');
 var db = require("./models");
 var cors = require('cors')
 var path = require('path');
+var fs = require("fs");
+
 const port = 3000
 
 var indexRouter = require('./routes/index');
@@ -22,6 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(cors())
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +36,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api', evenementsRouter, 
   inscriptionsRouter, newsRouter, administrateursRouter, authRouter);
+
+const uploadDir = path.join(__dirname, "../front-end/public/event/header");
+
+// Configuration de multer
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dest = uploadDir
+        fs.mkdirSync(dest, { recursive: true });
+        cb(null, dest);
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.originalname); 
+    }
+});
+
+const upload = multer({ storage });
+
+// Route pour uploader une image
+app.use('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'Fichier manquant' });
+  res.json({ filename: req.file.filename, path: `/uploads/${req.file.filename}` });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -10,6 +10,7 @@ export function CreateEvent() {
     const [dateFin, setDateFin] = useState('');
     const [error, setError] = useState('');
     const [categorie, setCategorie] = useState('');
+    const [file, setFile] = useState<File | null>(null);
 
     const handleEvent = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -22,19 +23,40 @@ export function CreateEvent() {
     else
     {
         try {
-                const response = await fetch("http://localhost:3000/api/evenements", {
+            const response = await fetch("http://localhost:3000/api/evenements", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ titre, description, description_detail: descriptionDetail, date_debut: dateDebut, date_fin: dateFin, categorie })
+            });
+
+            const data = await response.json();
+            console.log("Réponse du serveur:", data);
+
+            if (!response.ok) {
+                setError(data.message || "Problème dans la création de l'évènement.");
+                return;
+            }
+
+            const eventId = data.id; 
+
+            if (file) {
+                const formData = new FormData();
+                const filename = `header${eventId}.png`;
+                formData.append("image", file, filename);
+
+                const uploadResponse = await fetch("http://localhost:3000/upload", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ titre, description, description_detail: descriptionDetail, date_debut: dateDebut, date_fin: dateFin, categorie })
+                    body: formData,
                 });
 
-                const data = await response.json();
-                console.log("Réponse du serveur:", data);
-
-                if (!response.ok) {
-                    setError(data.message || "Problème dans la création de l'évènement.");
+                const uploadData = await uploadResponse.json();
+                if (!uploadResponse.ok) {
+                    setError(uploadData.message || "Erreur lors de l'upload de l'image.");
                     return;
                 }
+
+                console.log("Image uploadée:", uploadData);
+            }
 
             } catch (error) {
                 console.error("Erreur lors de la création de l'évènement:", error);
@@ -85,6 +107,10 @@ export function CreateEvent() {
                                     <input type="text" className="form-control" id="categorieInput" value={categorie} placeholder="Catégorie" onChange={(e) => setCategorie(e.target.value)} required />
                                     <label htmlFor="categorieInput">Catégorie</label>
                                 </div>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="image" className="form-label">Image de header (format 16:9 préféré)</label>
+                                <input type="file" className="form-control" id="image" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} required />
                             </div>
                             <br />
                             {error && <div className="alert alert-danger">{error}</div>}
