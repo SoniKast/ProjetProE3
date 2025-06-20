@@ -11,11 +11,12 @@ export default [
     ]),
 
     ...prefix("admin", [ 
-        layout("routes/adminlayout.tsx", [
-        index("routes/dashboard.tsx"),
-        route("create-event", "routes/create-event.tsx"),
-        route("create-news", "routes/create-news.tsx"),
         route("login", "routes/login.tsx"),
+        
+        layout("routes/adminlayout.tsx", [
+            index("routes/dashboard.tsx"),
+            route("create-event", "routes/create-event.tsx"),
+            route("create-news", "routes/create-news.tsx"),
         ]),
     ]),
 ] satisfies RouteConfig;

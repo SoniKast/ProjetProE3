@@ -1,15 +1,19 @@
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
 import AdminHeader from "../components/adminheader";
-import { AuthProvider } from "../components/authcontext";
+import { useAuth } from "../components/authcontext";
 
 export default function AdminLayout() {
+    const { isAuthenticated } = useAuth();
+
+    if (!isAuthenticated) {
+        return <Navigate to="/admin/login" replace />;
+    }
+
     return (
         <div>
-            <AuthProvider>
-                <AdminHeader />
-                <Outlet />
-            </AuthProvider>
+            <AdminHeader />
+            <Outlet />
         </div>
     );
 }

@@ -10,6 +10,7 @@ export function CreateEvent() {
     const [dateFin, setDateFin] = useState('');
     const [error, setError] = useState('');
     const [categorie, setCategorie] = useState('');
+    const [emplacement, setEmplacement] = useState('');
     const [file, setFile] = useState<File | null>(null);
 
     const handleEvent = async (e: { preventDefault: () => void; }) => {
@@ -26,7 +27,7 @@ export function CreateEvent() {
             const response = await fetch("http://localhost:3000/api/evenements", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ titre, description, description_detail: descriptionDetail, date_debut: dateDebut, date_fin: dateFin, categorie })
+                body: JSON.stringify({ titre, description, description_detail: descriptionDetail, date_debut: dateDebut, date_fin: dateFin, categorie, emplacement })
             });
 
             const data = await response.json();
@@ -106,6 +107,12 @@ export function CreateEvent() {
                                 <div className="form-floating">
                                     <input type="text" className="form-control" id="categorieInput" value={categorie} placeholder="Catégorie" onChange={(e) => setCategorie(e.target.value)} required />
                                     <label htmlFor="categorieInput">Catégorie</label>
+                                </div>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="form-floating">
+                                    <input type="text" className="form-control" id="emplacementInput" value={emplacement} placeholder="Emplacement" onChange={(e) => setEmplacement(e.target.value)} required />
+                                    <label htmlFor="emplacementInput">Emplacement</label>
                                 </div>
                             </div>
                             <div className="mb-3">

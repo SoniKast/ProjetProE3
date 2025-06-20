@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { AuthProvider } from "./components/AuthContext";
 
 import type { Route } from "./+types/root";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,7 +51,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return ( 
+    <AuthProvider>
+      <Outlet /> 
+    </AuthProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
