@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Sidebar from "~/components/sidebar";
 import "./styles/login.css";
 
 export function CreateEvent() {
@@ -68,9 +67,8 @@ export function CreateEvent() {
 
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "calc(100vh - 80px)" }}>
-                <div className="row w-100">
-                    <div className="col-lg-4 mx-auto card p-5 border-secondary border-2">
+            <div className="container">
+                    <div className="w-75 my-5 mx-auto card p-5 border-secondary border-2">
                         <h1 className="text-center p-3">Créer un évènement</h1>
                         <form onSubmit={handleEvent} >
                             <div className="input-group mb-3">
@@ -126,7 +124,6 @@ export function CreateEvent() {
                             </div>
                         </form>
                     </div>
-                </div>
             </div>
         </>
     )

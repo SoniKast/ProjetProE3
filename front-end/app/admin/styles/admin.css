@@ -1,3 +1,22 @@
 body {
     background-color: #ffffff;
 }
+
+main-page {
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.sidebar {
+  order: 1;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    order: 0;
+  }
+
+}

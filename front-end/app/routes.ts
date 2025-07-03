@@ -17,6 +17,9 @@ export default [
             index("routes/dashboard.tsx"),
             route("create-event", "routes/create-event.tsx"),
             route("create-news", "routes/create-news.tsx"),
+            route("evenements", "routes/admin-events.tsx"),
+            route("actualites", "routes/admin-news.tsx"),
+            route("inscriptions", "routes/admin-inscriptions.tsx"),
         ]),
     ]),
 ] satisfies RouteConfig;
