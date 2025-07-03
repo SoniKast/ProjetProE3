@@ -10,8 +10,6 @@ var cors = require('cors')
 var path = require('path');
 var fs = require("fs");
 
-const port = 3000
-
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
 var evenementsRouter = require('./routes/evenements');
@@ -64,11 +62,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-db.sequelize.sync({ force: false }).then(function () {
-  app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-  });
-});
+db.sequelize.sync({ force: false })
 
 // error handler
 app.use(function(err, req, res, next) {
