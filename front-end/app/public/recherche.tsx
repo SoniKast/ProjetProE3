@@ -27,8 +27,10 @@ export function Recherche() {
 
     const handleSearch = (e) => {
         e.preventDefault();
+        const normalize = (text: string) =>
+        text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-        const motsCles = titre.trim().toLowerCase();
+        const motsCles = normalize(titre);
 
         const filtres = evenements.filter(ev => {
             const matchTitre = ev.titre?.toLowerCase().includes(motsCles);
@@ -85,9 +87,9 @@ export function Recherche() {
                         <h4>Résultats</h4>
                         {results.length > 0 ? (
                             <ul className="list-group">
-                                {results.map((event, index) => (
-                                    <Link to={`event/${event.id}`} className="text-decoration-none mb-2">
-                                        <li key={index} className="list-group-item p-3">
+                                {results.map((event) => (
+                                    <Link key={event.id} to={`event/${event.id}`} className="text-decoration-none mb-2">
+                                        <li className="list-group-item p-3">
                                             <h5>Titre: {event.titre}</h5>
                                             Description: {event.description}<br />
                                             Catégorie: {event.categorie}<br />

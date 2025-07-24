@@ -6,6 +6,7 @@ export function Inscription() {
     const [nom, setNom] = useState('');
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
     // Détails de l'évènement
@@ -17,6 +18,7 @@ export function Inscription() {
     const handleEvent = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+        setIsSubmitting(true);
 
         const now = new Date().toISOString(); // Get current date-time in ISO format
 
@@ -34,12 +36,15 @@ export function Inscription() {
 
             const data = await response.json();
             if (!response.ok) {
-                setError(data.message);
+                setError(data.message || "Erreur lors de l'inscription.");
+                setIsSubmitting(false);
                 return;
             }
+
             navigate("/");
         } catch (err) {
             setError("Erreur lors de l'inscription.");
+            setIsSubmitting(false);
         }
     };
 
@@ -65,7 +70,7 @@ export function Inscription() {
                             <br />
                             {error && <div className="alert alert-danger">{error}</div>}
                             <div className="text-center p-3">
-                                <button type="submit" className="btn btn-primary text-center">S'inscrire</button>
+                                <button type="submit" className="btn btn-primary text-center" disabled={isSubmitting}> {isSubmitting ? "Inscription en cours..." : "S'inscrire"}</button>
                             </div>
                         </form>
                     </div>

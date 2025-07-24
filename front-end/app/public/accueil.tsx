@@ -1,4 +1,3 @@
-import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import "./styles/base.css";
 import { useNavigate } from 'react-router';
@@ -27,40 +26,31 @@ function getEvenementsAleatoire(evenements: Evenement[], count = 3) {
 
 export function Accueil() {
     const [evenementsAleatoire, setEvenementsAleatoire] = useState<Evenement[]>([]);
-    const [evenements, setEvenements] = useState<Evenement[]>([]);
     const [actualites, setActualites] = useState<Actualite[]>([]);
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function getEvenements() {
+        async function getEventNews() {
             try {
-                const response = await fetch("http://localhost:3000/api/evenements");
-                if (!response.ok) {
-                    throw new Error("Erreur lors du chargement des évènements");
-                }
-                const data: Evenement[] = await response.json();
+                const [evenementsRes, actualitesRes] = await Promise.all([
+                    fetch("http://localhost:3000/api/evenements"),
+                    fetch("http://localhost:3000/api/news")
+                ]);
 
-                setEvenements(data);
-                setEvenementsAleatoire(getEvenementsAleatoire(data, 3));
+                if (!evenementsRes.ok || !actualitesRes.ok) throw new Error("Erreur de chargement");
+
+                const evenementsData: Evenement[] = await evenementsRes.json();
+                const actualitesData: Actualite[] = await actualitesRes.json();
+
+                setEvenementsAleatoire(getEvenementsAleatoire(evenementsData, 3));
+                setActualites(actualitesData);
             } catch (error) {
-                console.error("Erreur lors de la récupération des événements:", error);
+                console.error("Erreur lors du chargement :", error);
             }
-        }
+        };
 
-        async function getActualites() {
-            try {
-                const response = await fetch("http://localhost:3000/api/news");
-                if (!response.ok) throw new Error("Erreur lors du chargement des actualités");
-                const data: Actualite[] = await response.json();
-                setActualites(data);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des actualités:", error);
-            }
-        }
-
-        getEvenements();
-        getActualites();
+        getEventNews();
     }, []);
 
     // fonction pour raccourcir le texte de la description

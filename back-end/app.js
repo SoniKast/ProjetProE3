@@ -23,7 +23,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:8080', // URL Vite (frontend)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
+// IMPORTANT : gérer les requêtes préflight OPTIONS
+app.options('*', cors());
 
 app.use(logger('dev'));
 app.use(express.json());
