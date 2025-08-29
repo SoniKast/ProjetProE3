@@ -1,4 +1,9 @@
-require('dotenv').config();
+// Charger d'abord .env.local pour le développement, puis .env par défaut
+if (require('fs').existsSync('.env.local')) {
+  require('dotenv').config({ path: '.env.local' });
+} else {
+  require('dotenv').config();
+}
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var express = require('express');
