@@ -1,5 +1,6 @@
 import type { Route } from "./+types/home";
 import { Actualites } from "../public/actualites";
+import { getApiUrl } from "../utils/api";
 
 interface Actualite {
   id: number;
@@ -10,7 +11,8 @@ interface Actualite {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const res = await fetch(`http://localhost:3000/api/news/${params.pid}`);
+  const pid = (params as { pid: string }).pid;
+  const res = await fetch(getApiUrl(`/api/news/${pid}`));
   if (!res.ok) throw new Response("Not Found", { status: 404 });
   const data: Actualite = await res.json();
   return data;

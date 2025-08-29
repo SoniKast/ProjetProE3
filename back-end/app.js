@@ -24,7 +24,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(cors({
-  origin: 'http://localhost:8080', // URL Vite (frontend)
+  origin: ['http://localhost:8080', 'http://0.0.0.0:8080'], // Allow both localhost and container access
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -39,8 +39,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Health check endpoint
+app.get('/health', async (req, res) => {
+  try {
+    // Test database connection
+    await db.sequelize.authenticate();
+    res.status(200).json({ status: 'OK', database: 'connected' });
+  } catch (error) {
+    res.status(503).json({ status: 'ERROR', database: 'disconnected', error: error.message });
+  }
+});
+
 app.use('/', indexRouter);
-app.use('/api', evenementsRouter, 
+app.use('/api', evenementsRouter,
   inscriptionsRouter, newsRouter, administrateursRouter, authRouter);
 
 const uploadDir = path.join(__dirname, "../front-end/public/event/header");
@@ -70,7 +81,14 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+// Database sync with basic error handling
 db.sequelize.sync({ force: false })
+  .then(() => {
+    console.log('Database synchronized successfully.');
+  })
+  .catch(error => {
+    console.error('Database synchronization failed:', error.message);
+  });
 
 // error handler
 app.use(function(err, req, res, next) {

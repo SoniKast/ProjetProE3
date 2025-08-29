@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { getApiUrl } from "../utils/api";
 
 export function Confirmation() {
   const { token } = useParams();
@@ -8,7 +9,7 @@ export function Confirmation() {
   useEffect(() => {
     async function confirmInscription() {
       try {
-        const res = await fetch(`http://localhost:3000/api/confirmation/${token}`);
+        const res = await fetch(getApiUrl(`/api/confirmation/${token}`));
         if (!res.ok) throw new Error();
         setStatus("success");
       } catch {

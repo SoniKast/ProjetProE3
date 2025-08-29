@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate, useLoaderData } from 'react-router';
+import { getApiUrl } from "../utils/api";
 
 export function Inscription() {
     const { id } = useParams();
@@ -23,7 +24,7 @@ export function Inscription() {
         const now = new Date().toISOString(); // Get current date-time in ISO format
 
         try {
-            const response = await fetch("http://localhost:3000/api/inscriptions", {
+            const response = await fetch(getApiUrl("/api/inscriptions"), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router';
+import { getApiUrl } from "../utils/api";
 
 export function Recherche() {
     const [titre, setTitre] = useState('');
@@ -19,13 +20,13 @@ export function Recherche() {
 
     useEffect(() => {
         // Charger tous les événements une fois au montage
-        fetch("http://localhost:3000/api/evenements")
+        fetch(getApiUrl("/api/evenements"))
             .then(res => res.json())
             .then(data => setEvenements(data))
             .catch(err => console.error("Erreur de chargement :", err));
     }, []);
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         const normalize = (text: string) =>
         text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -88,7 +89,7 @@ export function Recherche() {
                         {results.length > 0 ? (
                             <ul className="list-group">
                                 {results.map((event) => (
-                                    <Link key={event.id} to={`event/${event.id}`} className="text-decoration-none mb-2">
+                                    <Link key={event.id} to={`/event/${event.id}`} className="text-decoration-none mb-2">
                                         <li className="list-group-item p-3">
                                             <h5>Titre: {event.titre}</h5>
                                             Description: {event.description}<br />

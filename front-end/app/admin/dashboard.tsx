@@ -2,6 +2,7 @@ import "./styles/admin.css";
 import StatCard from '../components/statcard';
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { getApiUrl } from "../utils/api";
 
 interface Evenement {
     id: number;
@@ -64,9 +65,9 @@ export function Dashboard() {
         const fetchData = async () => {
             try {
                 const [resEvents, resNews, resInscr] = await Promise.all([
-                    fetch('http://localhost:3000/api/evenements'),
-                    fetch('http://localhost:3000/api/news'),
-                    fetch('http://localhost:3000/api/inscriptions')
+                    fetch(getApiUrl('/api/evenements')),
+                    fetch(getApiUrl('/api/news')),
+                    fetch(getApiUrl('/api/inscriptions'))
                 ]);
 
                 const events: Evenement[] = await resEvents.json();

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./styles/base.css";
 import { useNavigate } from 'react-router';
+import { getApiUrl } from "../utils/api";
 
 interface Evenement {
   id: number;
@@ -34,8 +35,8 @@ export function Accueil() {
         async function getEventNews() {
             try {
                 const [evenementsRes, actualitesRes] = await Promise.all([
-                    fetch("http://localhost:3000/api/evenements"),
-                    fetch("http://localhost:3000/api/news")
+                    fetch(getApiUrl("/api/evenements")),
+                    fetch(getApiUrl("/api/news"))
                 ]);
 
                 if (!evenementsRes.ok || !actualitesRes.ok) throw new Error("Erreur de chargement");
